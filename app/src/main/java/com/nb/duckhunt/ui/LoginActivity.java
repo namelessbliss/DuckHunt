@@ -1,4 +1,4 @@
-package com.nb.duckhunt;
+package com.nb.duckhunt.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nb.duckhunt.Common.Constantes;
+import com.nb.duckhunt.R;
 import com.nb.duckhunt.models.Player;
 
 public class LoginActivity extends AppCompatActivity {

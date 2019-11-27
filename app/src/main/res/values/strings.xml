@@ -3,4 +3,5 @@
     <string name="detalles_game_over">Fin del juego!<br></br> Has conseguido cazar %1$d patos</string>
     <string name="game_over">Game Over</string>
     <string name="nick_error">El nombre ya está en uso</string>
+    <string name="title_activity_ranking">RankingActivity</string>
 </resources>

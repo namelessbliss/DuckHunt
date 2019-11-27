@@ -1,6 +1,7 @@
-package com.nb.duckhunt;
+package com.nb.duckhunt.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.nb.duckhunt.Common.Constantes;
+import com.nb.duckhunt.R;
 
 import java.util.Random;
 
@@ -54,7 +57,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initTimer() {
-        new CountDownTimer(60000, 1000) {
+        new CountDownTimer(6000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 long segundosRestantes = millisUntilFinished / 1000;
@@ -64,8 +67,8 @@ public class GameActivity extends AppCompatActivity {
             public void onFinish() {
                 tvTimer.setText("0s");
                 gameOver = true;
-                showGameOver();
                 saveResultFirestore();
+                //showGameOver();
             }
         }.start();
 
@@ -74,7 +77,12 @@ public class GameActivity extends AppCompatActivity {
     private void saveResultFirestore() {
         db.collection("Players")
                 .document(id)
-                .update("patos", counter);
+                .update("patos", counter).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                showGameOver();
+            }
+        });
     }
 
     private void showGameOver() {
@@ -89,17 +97,20 @@ public class GameActivity extends AppCompatActivity {
         builder.setPositiveButton("Reiniciar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
                 initGame();
             }
         });
 
-        builder.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Ver Ranking", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                finish();
+                Intent intent = new Intent(GameActivity.this, RankingActivity.class);
+                startActivity(intent);
             }
         });
+
+        builder.setCancelable(false);
 
         //3. Get AlerDialog
         AlertDialog dialog = builder.create();
@@ -161,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
                             ivDuck.setImageResource(R.drawable.duck);
                             moveDuck();
                         }
-                    }, 500);
+                    }, 300);
                 }
             }
         });
