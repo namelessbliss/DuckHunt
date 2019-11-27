@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         etNick.setText("");
                         Intent i = new Intent(LoginActivity.this, GameActivity.class);
                         i.putExtra(Constantes.EXTRA_NICK, nick);
+                        i.putExtra(Constantes.EXTRA_ID, documentReference.getId());
                         startActivity(i);
                     }
                 });

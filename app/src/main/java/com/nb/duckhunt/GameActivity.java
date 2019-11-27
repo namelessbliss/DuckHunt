@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.nb.duckhunt.Common.Constantes;
 
 import java.util.Random;
@@ -29,11 +30,16 @@ public class GameActivity extends AppCompatActivity {
 
     private boolean gameOver;
 
+    private String id, nick;
+    private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        db = FirebaseFirestore.getInstance();
 
         initGame();
     }
@@ -59,9 +65,16 @@ public class GameActivity extends AppCompatActivity {
                 tvTimer.setText("0s");
                 gameOver = true;
                 showGameOver();
+                saveResultFirestore();
             }
         }.start();
 
+    }
+
+    private void saveResultFirestore() {
+        db.collection("Players")
+                .document(id)
+                .update("patos", counter);
     }
 
     private void showGameOver() {
@@ -125,7 +138,8 @@ public class GameActivity extends AppCompatActivity {
 
         // Obtiene el nick del usuario
         Bundle extras = getIntent().getExtras();
-        String nick = extras.getString(Constantes.EXTRA_NICK);
+        nick = extras.getString(Constantes.EXTRA_NICK);
+        id = extras.getString(Constantes.EXTRA_ID);
         tvNick.setText(nick);
 
     }
