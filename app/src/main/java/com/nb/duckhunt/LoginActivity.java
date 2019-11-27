@@ -1,6 +1,7 @@
 package com.nb.duckhunt;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,11 @@ public class LoginActivity extends AppCompatActivity {
 
         etNick = findViewById(R.id.etNick);
         btnStart = findViewById(R.id.btnStart);
+
+        //cambiar tipo de fuente
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"pixel.ttf");
+        etNick.setTypeface(typeface);
+        btnStart.setTypeface(typeface);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
