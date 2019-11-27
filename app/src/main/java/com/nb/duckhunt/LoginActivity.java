@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         btnStart = findViewById(R.id.btnStart);
 
         //cambiar tipo de fuente
-        Typeface typeface = Typeface.createFromAsset(getAssets(),"pixel.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "pixel.ttf");
         etNick.setTypeface(typeface);
         btnStart.setTypeface(typeface);
 
@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(LoginActivity.this, GameActivity.class);
                     i.putExtra(Constantes.EXTRA_NICK, nick);
+                    etNick.setText("");
                     startActivity(i);
                 }
             }

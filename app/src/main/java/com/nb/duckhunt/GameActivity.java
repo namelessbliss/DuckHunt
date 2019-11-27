@@ -44,6 +44,7 @@ public class GameActivity extends AppCompatActivity {
         initPantalla();
         initTimer();
         eventos();
+        moveDuck();
     }
 
     private void initTimer() {
@@ -68,20 +69,22 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
         // 2. Chain together various setter methods to set the dialog characteristics
-        builder.setMessage(R.string.detalles_game_over + counter + "patos")
+        String detalles = getString(R.string.detalles_game_over, counter);
+        builder.setMessage(detalles)
                 .setTitle(R.string.game_over);
 
         builder.setPositiveButton("Reiniciar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                initGame();
             }
         });
 
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                finish();
             }
         });
 
@@ -105,6 +108,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initViewComponents() {
+        counter = 0;
+
         tvCounter = findViewById(R.id.tvCounter);
         tvTimer = findViewById(R.id.tvTimer);
         tvNick = findViewById(R.id.tvNick);
@@ -115,6 +120,8 @@ public class GameActivity extends AppCompatActivity {
         tvCounter.setTypeface(typeface);
         tvTimer.setTypeface(typeface);
         tvNick.setTypeface(typeface);
+
+        tvCounter.setText("0");
 
         // Obtiene el nick del usuario
         Bundle extras = getIntent().getExtras();
