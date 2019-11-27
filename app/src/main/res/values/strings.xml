@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Duck Hunt</string>
+    <string name="detalles_game_over">Has conseguido cazar</string>
+    <string name="game_over">Game Over</string>
 </resources>
