@@ -13,11 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:contentDescription="TODO"
         android:src="@drawable/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etNick"
@@ -27,6 +27,9 @@
         android:ems="10"
         android:hint="Ingrese su nombre"
         android:inputType="textPersonName"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textColorLink="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,12 +40,39 @@
         android:id="@+id/btnStart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="Jugar"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etNick" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNick" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Bienvenido:"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/tvNick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Nick"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

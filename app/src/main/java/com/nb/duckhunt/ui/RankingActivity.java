@@ -1,8 +1,10 @@
 package com.nb.duckhunt.ui;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +14,7 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nb.duckhunt.R;
 
-public class RankingActivity extends AppCompatActivity {
+public class RankingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FloatingActionButton fab;
 
@@ -25,6 +27,7 @@ public class RankingActivity extends AppCompatActivity {
         setTitle("Ranking");
 
         fab = findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -38,7 +41,7 @@ public class RankingActivity extends AppCompatActivity {
         TapTargetView.showFor(this, TapTarget.forView(fab, "Volver a jugar", "Consigue un mejor ranking")
                         // Opciones opcionales
                         .outerCircleColor(R.color.colorAccent)      // Specify a color for the outer circle
-                        .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
+                        .outerCircleAlpha(0.80f)            // Specify the alpha amount for the outer circle
                         .targetCircleColor(android.R.color.white)   // Specify a color for the target circle
                         .titleTextSize(20)                  // Specify the size (in sp) of the title text
                         .titleTextColor(android.R.color.white)      // Specify the color of the title text
@@ -52,7 +55,7 @@ public class RankingActivity extends AppCompatActivity {
                         .tintTarget(true)                   // Whether to tint the target view's color
                         .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
                         .icon(drawable)                     // Specify a custom drawable to draw as the target
-                        .targetRadius(40),                  // Specify the target radius (in dp)
+                        .targetRadius(30),                  // Specify the target radius (in dp)
                 new TapTargetView.Listener() {
                     @Override
                     public void onTargetClick(TapTargetView view) {
@@ -63,8 +66,13 @@ public class RankingActivity extends AppCompatActivity {
     }
 
     private void startGame() {
-        //TODO iniciar nuevamente el juego
-
+        Intent intent = new Intent(RankingActivity.this, GameActivity.class);
+        startActivity(intent);
+        finish();
     }
 
+    @Override
+    public void onClick(View view) {
+        startGame();
+    }
 }

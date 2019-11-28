@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.nb.duckhunt.Common.Constantes;
 import com.nb.duckhunt.R;
+import com.nb.duckhunt.Session.SessionManager;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
@@ -33,8 +35,14 @@ public class GameActivity extends AppCompatActivity {
 
     private boolean gameOver;
 
-    private String id, nick;
+    private String id, nick, patos;
     private FirebaseFirestore db;
+
+    // User Session Manager Class
+    private SessionManager session;
+
+    // get user data from session
+    HashMap<String, String> user;
 
 
     @Override
@@ -43,6 +51,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         db = FirebaseFirestore.getInstance();
+
+        session = new SessionManager(getApplicationContext());
+        user = session.getUserDetails();
 
         initGame();
     }
@@ -57,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initTimer() {
-        new CountDownTimer(6000, 1000) {
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 long segundosRestantes = millisUntilFinished / 1000;
@@ -75,14 +86,22 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void saveResultFirestore() {
-        db.collection("Players")
-                .document(id)
-                .update("patos", counter).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                showGameOver();
-            }
-        });
+        // Si el puntaje supera al anterior registrado, se actualiza el puntaje en firebase
+        if (counter > Integer.parseInt(patos)) {
+            //Actualiza puntaje en bd
+            db.collection("Players")
+                    .document(id)
+                    .update("patos", counter).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    showGameOver();
+                }
+            });
+
+            //Sobrescribe los datos de session
+            session.createUserSession(id, nick, counter);
+        } else
+            showGameOver();
     }
 
     private void showGameOver() {
@@ -107,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(GameActivity.this, RankingActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -116,11 +136,16 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         //4. Show
-        dialog.show();
+        try {
+            dialog.show();
+        } catch (Exception e) {
+            Log.e("GameActivity", "Activity cerrado, no se puede mostrar dialogo");
+        }
+
     }
 
     private void initPantalla() {
-        // Obtiene tamaño de pantall
+        // Obtiene tamaño de pantalla
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -147,10 +172,10 @@ public class GameActivity extends AppCompatActivity {
 
         tvCounter.setText("0");
 
-        // Obtiene el nick del usuario
-        Bundle extras = getIntent().getExtras();
-        nick = extras.getString(Constantes.EXTRA_NICK);
-        id = extras.getString(Constantes.EXTRA_ID);
+        // Obtiene el nick del usuario a traves de shared pref
+        nick = user.get(SessionManager.KEY_NICK);
+        id = user.get(SessionManager.KEY_ID);
+        patos = user.get(SessionManager.KEY_DUCKS_HUNTED);
         tvNick.setText(nick);
 
     }
@@ -179,13 +204,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void moveDuck() {
-        int min = 0;
-        int maximoX = anchoPantalla - ivDuck.getWidth();
-        int maxY = altoPantalla - ivDuck.getHeight();
+        int minX = 0;
+        int maximoX = (anchoPantalla - (ivDuck.getWidth() + minX));
+        int minY = 100;
+        int maxY = (altoPantalla - (ivDuck.getHeight() + minY));
+
 
         //numeros aleatorios
-        int randomX = random.nextInt(((maximoX - min) + 1) + min);
-        int randomY = random.nextInt(((maxY - min) + 1) + min);
+        int randomX = random.nextInt(maximoX);
+        int randomY = random.nextInt(maxY);
 
         ivDuck.setX(randomX);
         ivDuck.setY(randomY);
