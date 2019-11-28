@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etNick;
     private Button btnStart;
     private TextView tvNick;
+    TextView tv;
 
     private String nick, id;
 
@@ -59,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         etNick.setTypeface(typeface);
         btnStart.setTypeface(typeface);
         tvNick.setTypeface(typeface);
-        TextView tv = findViewById(R.id.textView);
+        tv = findViewById(R.id.textView);
         tv.setTypeface(typeface);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +118,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         etNick.setText("");
-
+                        etNick.setVisibility(View.GONE);
+                        tvNick.setVisibility(View.VISIBLE);
+                        tvNick.setText(nick);
+                        tv.setVisibility(View.VISIBLE);
                         String id = documentReference.getId();
                         session.createUserSession(id, nick, 0);
-
+                        startGame();
 
                     }
                 });

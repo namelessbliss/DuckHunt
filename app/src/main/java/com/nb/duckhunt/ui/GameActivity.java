@@ -64,7 +64,6 @@ public class GameActivity extends AppCompatActivity {
         initPantalla();
         initTimer();
         eventos();
-        moveDuck();
     }
 
     private void initTimer() {
@@ -153,7 +152,7 @@ public class GameActivity extends AppCompatActivity {
         altoPantalla = size.y;
 
         //objeto para generar numeros random
-        random = new Random();
+        random = new Random(System.currentTimeMillis());
     }
 
     private void initViewComponents() {
@@ -188,7 +187,7 @@ public class GameActivity extends AppCompatActivity {
                     counter++;
                     tvCounter.setText(counter + "");
                     ivDuck.setImageResource(R.drawable.duck_clicked);
-                    ivDuck.setClickable(false);
+                    ivDuck.setEnabled(false);
 
                     // Ejecutar codigo segundos despues
                     new Handler().postDelayed(new Runnable() {
@@ -197,7 +196,7 @@ public class GameActivity extends AppCompatActivity {
                             ivDuck.setImageResource(R.drawable.duck);
                             moveDuck();
                         }
-                    }, 300);
+                    }, random.nextInt(400));
                 }
             }
         });
@@ -205,8 +204,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void moveDuck() {
         int minX = 0;
+        int a = ivDuck.getWidth();
+        int b = ivDuck.getMaxWidth();
+        int c = ivDuck.getMeasuredWidth();
+        int d = ivDuck.getMinimumWidth();
         int maximoX = (anchoPantalla - (ivDuck.getWidth() + minX));
-        int minY = 100;
+        int minY = (int) (anchoPantalla * 0.5);
         int maxY = (altoPantalla - (ivDuck.getHeight() + minY));
 
 
@@ -216,6 +219,6 @@ public class GameActivity extends AppCompatActivity {
 
         ivDuck.setX(randomX);
         ivDuck.setY(randomY);
-        ivDuck.setClickable(true);
+        ivDuck.setEnabled(true);
     }
 }

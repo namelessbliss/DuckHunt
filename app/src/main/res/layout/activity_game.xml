@@ -11,16 +11,18 @@
         android:id="@+id/ivDuck"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:srcCompat="@drawable/duck"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="244dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/duck" />
 
     <ImageView
         android:id="@+id/ivCounter"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/duck_hunt_logo" />
@@ -30,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:paddingTop="16dp"
         android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/ivCounter"
         app:layout_constraintStart_toEndOf="@+id/ivCounter"
@@ -40,18 +41,17 @@
         android:id="@+id/tvNick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
         android:text="Name"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCounter"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/tvCounter"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tvCounter" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvTimer"
         app:layout_constraintEnd_toStartOf="@+id/tvTimer"
         app:layout_constraintTop_toTopOf="@+id/tvTimer"
@@ -61,8 +61,8 @@
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="60 s"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
